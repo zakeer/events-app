@@ -10,4 +10,8 @@ function CounterAppWithStore() {
     </Provider>
 }
 
+export const SOME_DATA = [
+    1,2,3,4
+]
+
 export default CounterAppWithStore;

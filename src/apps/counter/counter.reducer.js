@@ -1,6 +1,6 @@
 import { DECREMENT_ACTION, INCREMENT_ACTION } from "./counter.actions";
 
-export function counterReducers(currentState = 500, action) {
+export function counterReducers(currentState = 999, action) {
     const payload = action.payload; // optional property
     const type = action.type; // required property
     console.log(":: counterReducers ::", currentState, action)

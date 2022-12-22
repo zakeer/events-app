@@ -1,11 +1,16 @@
 import React from 'react';
 import './App.css';
-import CounterApp from './apps/counter/CounterApp';
+import MyCounterApp, { SOME_DATA as counterData } from './apps/counter/CounterApp';
+import FriendsListApp from './apps/friendsList/FriendsList';
+
 
 function App() {
   return (
     <div className="App">
-      <CounterApp />
+      {counterData}
+      <MyCounterApp />
+      <hr />
+      <FriendsListApp />
     </div>
   );
 }
