@@ -1,8 +1,10 @@
 import React from 'react';
 import { useState } from 'react';
 import { signInWithPopup, signInWithEmailAndPassword, signInWithPhoneNumber, GoogleAuthProvider } from 'firebase/auth';
-import { firebaseAuth } from './firebase.config'
+import { firebaseAuth, firebaseDB } from './firebase.config'
 import UserInfo from './components/UserInfo';
+import { ref, child, get, set } from 'firebase/database'
+
 
 function EventApp() {
     const [user, setUser] = useState(null);
@@ -13,8 +15,35 @@ function EventApp() {
         signInWithPopup(firebaseAuth, provider) // Promise 
             .then((googleUserResponse) => {
                 console.log(":: SUCCESS ::", googleUserResponse);
-                setUser(googleUserResponse.user);
-            }) // Success
+
+                const { displayName, email, phoneNumber, photoURL, uid } = googleUserResponse.user;
+                const userDetails = {
+                    displayName,
+                    email,
+                    phoneNumber,
+                    photoURL,
+                    uid
+                };
+
+                setUser(userDetails);
+
+                // Check DB for this user based on UID
+                const dbRef = ref(firebaseDB);
+                get(child(dbRef, `users/${uid}`))
+                    .then(snapshot => {
+                        if (snapshot.exists()) {
+                            console.log("USER EXISTS...")
+                        } else {
+                            console.log("USER NOT EXISTS")
+                            // Create a new user in realtime DB
+                            set(ref(firebaseDB, `users/${uid}`), userDetails)
+                                .then(success => console.log(":: USER CREATED SUCCESS", success))
+
+                        }
+                    }).catch(error => {
+
+                    })
+            })
             .catch((errorResponse) => {
                 console.log(":: ERROR ::", errorResponse);
                 setError(true);
