@@ -1,6 +1,7 @@
 import React from 'react';
 import { useState } from 'react';
 import UserInfo from './components/UserInfo';
+import UserLogin from './components/UserLogin';
 import { checkIfUserExistOrNot, createNewUser, userLogin } from './services/users.service';
 
 function EventApp() {
@@ -20,7 +21,15 @@ function EventApp() {
         {hasError && <p className='text-red-400 p-2'>Internal Error</p>}
         {user ?
             <UserInfo user={user} /> :
-            <button className='bg-red-400 shadow p-4' onClick={handleGoogleLogin}>Login with Gmail</button>}
+            <div>
+                <UserLogin />
+                <button
+                    className='bg-red-400 shadow p-4'
+                    onClick={handleGoogleLogin}>
+                    Login with Gmail
+                </button>
+            </div>
+        }
     </div>
 }
 

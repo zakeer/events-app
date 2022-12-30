@@ -1,4 +1,4 @@
-import { GoogleAuthProvider, signInWithPopup } from "firebase/auth"
+import { GoogleAuthProvider, createUserWithEmailAndPassword, signInWithPopup } from "firebase/auth"
 import { child, get, ref, set } from "firebase/database";
 import { firebaseAuth, firebaseDB } from "../firebase.config"
 
@@ -8,6 +8,13 @@ export const userLogin = async () => {
   const provider = new GoogleAuthProvider();
   const googleResponse = await signInWithPopup(firebaseAuth, provider);
   const { user } = googleResponse;
+  return user;
+}
+
+export const userRegisterWithEmail = async (email, password) => {
+  const response = await createUserWithEmailAndPassword(firebaseAuth, email, password);
+  const { user } = response;
+  createNewUser(user)
   return user;
 }
 
